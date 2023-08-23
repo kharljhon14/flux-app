@@ -37,12 +37,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var pg_1 = require("pg");
+var faker_1 = require("@faker-js/faker");
+var bcrypt_1 = require("bcrypt");
 function loadFakeData(numUsers) {
     if (numUsers === void 0) { numUsers = 10; }
     return __awaiter(this, void 0, void 0, function () {
-        var client, res;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var client, saltRounds, i, hashedPassword, res_1, _i, _a, row, i, _b, _c, row1, _d, _e, row2, err_1, res;
+        return __generator(this, function (_f) {
+            switch (_f.label) {
                 case 0:
                     console.log("executing load fake data. generating ".concat(numUsers, " users."));
                     client = new pg_1.Client({
@@ -54,14 +56,97 @@ function loadFakeData(numUsers) {
                     });
                     return [4 /*yield*/, client.connect()];
                 case 1:
-                    _a.sent();
-                    return [4 /*yield*/, client.query('select 1')];
+                    _f.sent();
+                    _f.label = 2;
                 case 2:
-                    res = _a.sent();
-                    console.log(res);
-                    return [4 /*yield*/, client.end()];
+                    _f.trys.push([2, 23, 25, 27]);
+                    return [4 /*yield*/, client.query('begin')];
                 case 3:
-                    _a.sent();
+                    _f.sent();
+                    saltRounds = 10;
+                    i = 0;
+                    _f.label = 4;
+                case 4:
+                    if (!(i < numUsers)) return [3 /*break*/, 8];
+                    return [4 /*yield*/, (0, bcrypt_1.hash)("flux".concat(i), saltRounds)];
+                case 5:
+                    hashedPassword = _f.sent();
+                    return [4 /*yield*/, client.query('insert into public.users (username, password, avatar) values ($1, $2, $3)', [faker_1.faker.internet.userName(), hashedPassword, faker_1.faker.image.avatar()])];
+                case 6:
+                    _f.sent();
+                    _f.label = 7;
+                case 7:
+                    i++;
+                    return [3 /*break*/, 4];
+                case 8: return [4 /*yield*/, client.query('select id from public.users order by created_at desc limit $1', [numUsers])];
+                case 9:
+                    res_1 = _f.sent();
+                    _i = 0, _a = res_1.rows;
+                    _f.label = 10;
+                case 10:
+                    if (!(_i < _a.length)) return [3 /*break*/, 15];
+                    row = _a[_i];
+                    i = 0;
+                    _f.label = 11;
+                case 11:
+                    if (!(i < Math.ceil(Math.random() * 10))) return [3 /*break*/, 14];
+                    return [4 /*yield*/, client.query('insert into public.posts (user_id, content) values ($1, $2)', [
+                            row.id,
+                            faker_1.faker.lorem.sentence(),
+                        ])];
+                case 12:
+                    _f.sent();
+                    _f.label = 13;
+                case 13:
+                    i++;
+                    return [3 /*break*/, 11];
+                case 14:
+                    _i++;
+                    return [3 /*break*/, 10];
+                case 15:
+                    _b = 0, _c = res_1.rows;
+                    _f.label = 16;
+                case 16:
+                    if (!(_b < _c.length)) return [3 /*break*/, 21];
+                    row1 = _c[_b];
+                    _d = 0, _e = res_1.rows;
+                    _f.label = 17;
+                case 17:
+                    if (!(_d < _e.length)) return [3 /*break*/, 20];
+                    row2 = _e[_d];
+                    if (!(row1.id != row2.id)) return [3 /*break*/, 19];
+                    if (!(Math.random() > 0.5)) return [3 /*break*/, 19];
+                    return [4 /*yield*/, client.query('insert into follows (user_id, follower_id) values ($1, $2)', [
+                            row1.id,
+                            row2.id,
+                        ])];
+                case 18:
+                    _f.sent();
+                    _f.label = 19;
+                case 19:
+                    _d++;
+                    return [3 /*break*/, 17];
+                case 20:
+                    _b++;
+                    return [3 /*break*/, 16];
+                case 21: return [4 /*yield*/, client.query('commit')];
+                case 22:
+                    _f.sent();
+                    return [3 /*break*/, 27];
+                case 23:
+                    err_1 = _f.sent();
+                    return [4 /*yield*/, client.query('rollback')];
+                case 24:
+                    _f.sent();
+                    throw err_1;
+                case 25: return [4 /*yield*/, client.end()];
+                case 26:
+                    _f.sent();
+                    return [7 /*endfinally*/];
+                case 27: return [4 /*yield*/, client.query('select 1')];
+                case 28:
+                    res = _f.sent();
+                    console.log(res);
                     return [2 /*return*/];
             }
         });
