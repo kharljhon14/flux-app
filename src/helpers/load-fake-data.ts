@@ -1,5 +1,4 @@
-import { Client } from 'pg';
-
+import { getClient } from '@/db';
 import { faker } from '@faker-js/faker';
 
 import { hash } from 'bcrypt';
@@ -7,13 +6,7 @@ import { hash } from 'bcrypt';
 async function loadFakeData(numUsers: number = 10) {
   console.log(`executing load fake data. generating ${numUsers} users.`);
 
-  const client = new Client({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'flux',
-    password: 'zheoden',
-    port: 5432,
-  });
+  const client = await getClient();
 
   await client.connect();
 
