@@ -2,23 +2,20 @@ import { Client, QueryResult } from 'pg';
 require('dotenv').config();
 
 export async function getClient(): Promise<Client> {
-  console.log(process.env.POSTGRES_URL);
-  if (process.env.POSTGRES_URL) {
-    const client = new Client({
-      connectionString: `${process.env.POSTGRES_URL}?sslmode=require`,
-    });
-    return client;
-  }
-
   const client = new Client({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'flux',
-    password: 'zheoden',
-    port: 5432,
+    connectionString: `postgres://default:dcMGjE3xlCX6@ep-dark-brook-50602543-pooler.us-east-1.postgres.vercel-storage.com:5432/verceldb?sslmode=require`,
   });
-
   return client;
+
+  // const client = new Client({
+  //   user: 'postgres',
+  //   host: 'localhost',
+  //   database: 'flux',
+  //   password: 'zheoden',
+  //   port: 5432,
+  // });
+
+  // return client;
 }
 
 export async function sql(sql: string, values?: Array<any>): Promise<QueryResult<any>> {

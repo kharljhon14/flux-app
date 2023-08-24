@@ -41,21 +41,11 @@ var pg_1 = require("pg");
 require('dotenv').config();
 function getClient() {
     return __awaiter(this, void 0, void 0, function () {
-        var client_1, client;
+        var client;
         return __generator(this, function (_a) {
             console.log(process.env.POSTGRES_URL);
-            if (process.env.POSTGRES_URL) {
-                client_1 = new pg_1.Client({
-                    connectionString: "".concat(process.env.POSTGRES_URL, "?sslmode=require")
-                });
-                return [2 /*return*/, client_1];
-            }
             client = new pg_1.Client({
-                user: 'postgres',
-                host: 'localhost',
-                database: 'flux',
-                password: 'zheoden',
-                port: 5432
+                connectionString: "postgres://default:dcMGjE3xlCX6@ep-dark-brook-50602543-pooler.us-east-1.postgres.vercel-storage.com:5432/verceldb?sslmode=require"
             });
             return [2 /*return*/, client];
         });
