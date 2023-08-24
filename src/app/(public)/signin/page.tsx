@@ -1,9 +1,9 @@
-import Form from './form';
+import SignInForm from './Form';
 
 export default async function SignIn() {
   return (
     <div className="w-full">
-      <Form />
+      <SignInForm />
     </div>
   );
 }

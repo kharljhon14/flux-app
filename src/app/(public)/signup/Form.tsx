@@ -5,23 +5,32 @@ import Input from '@/components/Input';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 
-export default function SignInForm() {
+export default function SignUpForm() {
   const router = useRouter();
   const [username, setUsername] = useState<string | undefined>('');
   const [password, setPassword] = useState<string | undefined>('');
+  const [confirmPassword, setConfirmPassword] = useState<string | undefined>('');
+
+  const [errors, setErrors] = useState<string[]>([]);
 
   const handleSubmit = async (evt: FormEvent) => {
     evt.preventDefault();
 
-    const res = await fetch('/api/login', {
+    const res = await fetch('/api/signup', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
     });
 
+    if (password !== confirmPassword) {
+      setErrors((prev) => [...prev, 'Passwords do not match']);
+
+      return;
+    }
+
     if (res.ok) {
-      router.push('/feed');
+      router.push('/signin');
     } else {
-      alert('Login failed!');
+      alert('Sign up failed!');
     }
   };
 
@@ -32,7 +41,7 @@ export default function SignInForm() {
       autoComplete="off"
     >
       <div className="text-center">
-        <h3 className="font-semibold text-lg">Sign In</h3>
+        <h3 className="font-semibold text-lg">Sign Up</h3>
       </div>
 
       <div>
@@ -62,7 +71,19 @@ export default function SignInForm() {
           placeholder="Password"
         />
       </div>
-      <Button className="mt-4">Sign In</Button>
+
+      <div className="flex flex-col gap-2">
+        <label htmlFor="confirm-password">Confirm Password</label>
+        <Input
+          id="confirm-password"
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+          placeholder="Confirm Password"
+        />
+      </div>
+      <Button className="mt-4">Sign Up</Button>
     </form>
   );
 }
