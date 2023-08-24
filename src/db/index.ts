@@ -1,6 +1,15 @@
 import { Client, QueryResult } from 'pg';
+require('dotenv').config();
 
 export async function getClient(): Promise<Client> {
+  console.log(process.env.POSTGRES_URL);
+  if (process.env.POSTGRES_URL) {
+    const client = new Client({
+      connectionString: `${process.env.POSTGRES_URL}?sslmode=require`,
+    });
+    return client;
+  }
+
   const client = new Client({
     user: 'postgres',
     host: 'localhost',
@@ -23,3 +32,7 @@ export async function sql(sql: string, values?: Array<any>): Promise<QueryResult
 
   return res;
 }
+
+(async () => {
+  await getClient();
+})();

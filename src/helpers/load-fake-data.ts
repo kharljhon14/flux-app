@@ -1,4 +1,4 @@
-import { getClient } from '@/db';
+import { getClient } from '../db';
 import { faker } from '@faker-js/faker';
 
 import { hash } from 'bcrypt';
@@ -64,4 +64,6 @@ async function loadFakeData(numUsers: number = 10) {
   console.log(res);
 }
 
-loadFakeData();
+(async () => {
+  await loadFakeData(10);
+})();
