@@ -15,17 +15,18 @@ export default function SignUpForm() {
 
   const handleSubmit = async (evt: FormEvent) => {
     evt.preventDefault();
-
-    const res = await fetch('/api/signup', {
-      method: 'POST',
-      body: JSON.stringify({ username, password }),
-    });
+    setErrors([]);
 
     if (password !== confirmPassword) {
       setErrors((prev) => [...prev, 'Passwords do not match']);
 
       return;
     }
+
+    const res = await fetch('/api/signup', {
+      method: 'POST',
+      body: JSON.stringify({ username, password }),
+    });
 
     if (res.ok) {
       router.push('/signin');
@@ -84,6 +85,14 @@ export default function SignUpForm() {
         />
       </div>
       <Button className="mt-4">Sign Up</Button>
+      {errors.map((error) => (
+        <div
+          key={error}
+          className="text-red-600"
+        >
+          {error}
+        </div>
+      ))}
     </form>
   );
 }
