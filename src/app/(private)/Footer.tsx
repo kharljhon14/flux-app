@@ -1,3 +1,3 @@
 export default function Footer() {
-  return <footer>Footer</footer>;
+  return <footer>&copy; Flux {new Date().getFullYear()}</footer>;
 }

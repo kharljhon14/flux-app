@@ -12,7 +12,7 @@ export default function Header() {
   console.log(data);
 
   return (
-    <header className="flex w-full p-5 bg-gray-800 my-2 justify-between items-center">
+    <header className="flex w-full p-5 bg-gray-800 my-2 justify-between rounded-lg items-center">
       <div>
         <h1 className="font-mono text-lg">Flux</h1>
       </div>
