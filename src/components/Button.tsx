@@ -1,6 +1,6 @@
 import { cn } from '@/helpers';
 import { VariantProps, cva } from 'class-variance-authority';
-import { ReactNode } from 'react';
+import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 const buttonVariants = cva(
   'text-white py-2 px-3 rounded-md transition-colors duration-300 disabled:pointer-events-none disabled:opacity-50',
@@ -19,11 +19,20 @@ const buttonVariants = cva(
   }
 );
 
-interface Props extends VariantProps<typeof buttonVariants> {
+interface Props
+  extends ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
   children: ReactNode;
   className?: string;
 }
 
-export default function Button({ children, className, variant }: Props) {
-  return <button className={cn(buttonVariants({ variant, className }))}>{children}</button>;
+export default function Button({ children, className, variant, ...props }: Props) {
+  return (
+    <button
+      {...props}
+      className={cn(buttonVariants({ variant, className }))}
+    >
+      {children}
+    </button>
+  );
 }
