@@ -35,3 +35,16 @@ export async function PATCH(request: Request, { params }: { params: { id: number
 
   return NextResponse.json({ message: 'Update success' });
 }
+
+export async function DELETE(request: Request, { params }: { params: { id: number } }) {
+  const jwtPayload = await getJWTPayload();
+
+  const res = await sql('delete from posts where user_id = $1 and id = $2', [
+    jwtPayload?.sub,
+    params.id,
+  ]);
+
+  if (res.rowCount === 1) return NextResponse.json({ message: 'Delete success' });
+
+  return NextResponse.json({ error: 'Not found' }, { status: 404 });
+}
