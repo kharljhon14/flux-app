@@ -1,7 +1,7 @@
 'use client';
 
 import Button from '@/components/Button';
-import Input from '@/components/Input';
+
 import Textarea from '@/components/Textarea';
 import { FormEvent, useState } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
@@ -24,19 +24,24 @@ export default function ProfileForm() {
       method: 'POST',
       body: JSON.stringify({ content: post }),
     });
+
+    if (res.ok) {
+      setPost('');
+      mutate((key) => typeof key === 'string' && key.startsWith('/api/posts'));
+    }
   };
 
   return (
     <form
       className="space-y-5"
-      action=""
+      onSubmit={handleSubmit}
     >
       <Textarea
         placeholder="What's on your mind?"
         value={post}
         onChange={(e) => setPost(e.target.value)}
       />
-      <Button className="w-full">Post</Button>
+      <Button>Post</Button>
     </form>
   );
 }

@@ -10,7 +10,7 @@ export default function Home() {
         <div>
           <Link
             className="bg-slate-900 my-4 p-3 rounded-lg block"
-            href="/"
+            href="/signin"
           >
             Sign In
           </Link>
@@ -18,7 +18,7 @@ export default function Home() {
         <div>
           <Link
             className="bg-slate-900 my-4 p-3 rounded-lg block"
-            href="/"
+            href="/signup"
           >
             Sign Up
           </Link>
