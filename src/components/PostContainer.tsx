@@ -27,7 +27,7 @@ export default function PostContainer() {
   }
 
   return (
-    <div>
+    <div className="space-y-5">
       {pages}
       <div>
         <Button onClick={() => setCount(count + 1)}>Load more</Button>

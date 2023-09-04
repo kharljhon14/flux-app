@@ -17,7 +17,7 @@ export default function PostList({ index, username }: Props) {
   if (isLoading) return <div>Loading ...</div>;
 
   return (
-    <ul>
+    <ul className="space-y-4">
       {data.data.map((post: PostType) => (
         <li key={post.id}>
           <Post post={post} />
