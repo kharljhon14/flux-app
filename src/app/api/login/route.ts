@@ -28,7 +28,6 @@ export async function POST(request: Request) {
 
   const response = NextResponse.json({ message: 'Login success' });
 
-  // Prevent cors attack
   response.cookies.set('jwt-token', token, { sameSite: 'strict', httpOnly: true, secure: true });
 
   return response;
