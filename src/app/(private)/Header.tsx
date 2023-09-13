@@ -2,6 +2,7 @@
 
 import User from '@/components/User';
 import useSWR from 'swr';
+import SignOut from './SignOut';
 
 export default function Header() {
   const { data, error, isLoading } = useSWR('api/users/profile');
@@ -15,11 +16,12 @@ export default function Header() {
         <h1 className="font-mono text-lg">Flux</h1>
       </div>
 
-      <div>
+      <div className="flex space-x-2">
         <User
           user={data.data}
           href="account"
         />
+        <SignOut />
       </div>
     </header>
   );

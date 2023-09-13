@@ -23,6 +23,7 @@ export default function AvatarForm() {
             alt={user.avatar}
             width={200}
             height={200}
+            className="rounded-full m-auto my-5"
             style={{ width: 'auto', height: 'auto' }}
           />
         </div>
